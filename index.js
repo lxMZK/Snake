@@ -25,8 +25,12 @@ let appleX = 5
 let appleY = 5
 
 function drawGame() {
-    clear()
     moveSnake()
+    checkCollision()
+    if (gameOver){
+        return;
+    }
+    clear()
     checkApple()
     drawApple()
     drawSnake()
@@ -77,6 +81,31 @@ function checkApple() {
         snakeLength++
         score++
     }
+}
+
+function checkCollision(){
+    if (xVect ===0 && yVect ===0){
+        return
+    }
+
+    if (headX < 0 || headX * tileCount >= canvas.width){
+        gameOver = true
+    } else if(headY < 0 || headY * tileCount >= canvas.height){
+        gameOver = true
+    } else {
+        gameOver = false
+    }
+
+    for (let i = 0; i < snake.length; i++){
+        if (headX === snake[i].x && headY=== snake[i].y){
+            gameOver = true
+            break;
+        }
+    }
+
+    ctx.fillStyle = 'white'
+    ctx.font = '50px Verdana'
+    ctx.fillText('GAME OVER', 35, 200)
 }
 
 document.body.addEventListener('keydown', keyDown)
