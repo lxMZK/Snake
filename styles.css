@@ -6,7 +6,5 @@ body{
 }
 
 #game{
-    width: 400px;
-    height: 400px;
     box-shadow: black 20px 10px 50px;
 }
