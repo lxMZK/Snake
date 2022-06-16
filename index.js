@@ -5,6 +5,9 @@ let tileCount = 20
 let tileSize = canvas.width / tileCount - 2
 let score = 0
 let gameOver = false
+let pause = false
+let menu = ['blue','green','red']
+let cursor = 0
 
 class snakePart {
     constructor(x, y) {
@@ -16,6 +19,7 @@ class snakePart {
 let speed = 7
 let headX = 10
 let headY = 10
+let eyes = [{ x: 0, y: 0 }, { x: 0, y: 0 }]
 let xVect = 0
 let yVect = 0
 let snakeLength = 2
@@ -25,9 +29,12 @@ let appleX = 5
 let appleY = 5
 
 function drawGame() {
+    if (pause) {
+        return;
+    }
     moveSnake()
     checkCollision()
-    if (gameOver){
+    if (gameOver) {
         return;
     }
     clear()
@@ -49,6 +56,19 @@ function drawScore() {
     ctx.fillText('Score: ' + score, canvas.width - 50, 10)
 }
 
+function drawMenu() {
+    clear()
+    ctx.fillStyle = 'white'
+    ctx.font = '50px Verdana'
+    ctx.fillText('Menu', 10, 50)
+
+    ctx.font = '20px Verdana'
+    ctx.fillText('Snake Head Color:     ' + menu[0],40, 75)
+    ctx.fillText('Snake Body Color:     ' + menu[1], 40, 95)
+    ctx.fillText('Apple Color:               ' + menu[2], 40, 115)
+    ctx.fillText('>', 20, cursor*tileCount+75)
+}
+
 function drawApple() {
     ctx.fillStyle = 'red'
     ctx.fillRect(appleX * tileCount, appleY * tileCount, tileSize, tileSize)
@@ -59,12 +79,12 @@ function drawSnake() {
     for (let i = 0; i < snake.length; i++) {
         ctx.fillRect(snake[i].x * tileCount, snake[i].y * tileCount, tileSize, tileSize)
     }
-    
+
     ctx.fillStyle = 'blue'
     ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
 
     snake.push(new snakePart(headX, headY))
-    if (snake.length > snakeLength){
+    if (snake.length > snakeLength) {
         snake.shift()
     }
 }
@@ -83,21 +103,21 @@ function checkApple() {
     }
 }
 
-function checkCollision(){
-    if (xVect ===0 && yVect ===0){
+function checkCollision() {
+    if (xVect === 0 && yVect === 0) {
         return
     }
 
-    if (headX < 0 || headX * tileCount >= canvas.width){
+    if (headX < 0 || headX * tileCount >= canvas.width) {
         gameOver = true
-    } else if(headY < 0 || headY * tileCount >= canvas.height){
+    } else if (headY < 0 || headY * tileCount >= canvas.height) {
         gameOver = true
     } else {
         gameOver = false
     }
 
-    for (let i = 0; i < snake.length; i++){
-        if (headX === snake[i].x && headY=== snake[i].y){
+    for (let i = 0; i < snake.length; i++) {
+        if (headX === snake[i].x && headY === snake[i].y) {
             gameOver = true
             break;
         }
@@ -111,40 +131,81 @@ function checkCollision(){
 document.body.addEventListener('keydown', keyDown)
 
 function keyDown(e) {
-    switch (e.keyCode) {
-        // Left
-        case 37:
-            if (xVect === 1) {
+    if (gameOver) {
+        return;
+    }
+    if (pause) {
+        switch (e.keyCode) {
+            // Escape
+            case 27:
+                pause = !pause
+                drawGame()
                 break;
-            }
-            xVect = -1
-            yVect = 0
-            break;
-        // Up
-        case 38:
-            if (yVect === 1) {
-                break;
-            }
-            xVect = 0
-            yVect = -1
-            break;
-        // Right
-        case 39:
-            if (xVect === -1) {
-                break;
-            }
-            xVect = 1
-            yVect = 0
-            break;
-        // Down
-        case 40:
-            if (yVect === -1) {
-                break;
-            }
-            xVect = 0
-            yVect = 1
-            break;
+            // Left
+            case 37:
 
+                break;
+            // Up
+            case 38:
+                if (cursor===0){
+                    break;
+                }
+                cursor--
+                break;
+            // Right
+            case 39:
+
+                break;
+            // Down
+            case 40:
+                if (cursor === menu.length -1){
+                    break;
+                }
+                cursor++
+                break;
+        }
+        drawMenu()
+    } else {
+        switch (e.keyCode) {
+            // Escape
+            case 27:
+                pause = !pause
+                drawMenu()
+                drawGame()
+                break;
+            // Left
+            case 37:
+                if (xVect === 1) {
+                    break;
+                }
+                xVect = -1
+                yVect = 0
+                break;
+            // Up
+            case 38:
+                if (yVect === 1) {
+                    break;
+                }
+                xVect = 0
+                yVect = -1
+                break;
+            // Right
+            case 39:
+                if (xVect === -1) {
+                    break;
+                }
+                xVect = 1
+                yVect = 0
+                break;
+            // Down
+            case 40:
+                if (yVect === -1) {
+                    break;
+                }
+                xVect = 0
+                yVect = 1
+                break;
+        }
     }
 }
 
