@@ -6,7 +6,10 @@ let tileSize = canvas.width / tileCount - 2
 let score = 0
 let gameOver = false
 let pause = false
-let menu = ['blue','green','red']
+let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white']
+let menu = [{ options: colors, selection: 4 },
+{ options: colors, selection: 3 },
+{ options: colors, selection: 0 }]
 let cursor = 0
 
 class snakePart {
@@ -63,24 +66,24 @@ function drawMenu() {
     ctx.fillText('Menu', 10, 50)
 
     ctx.font = '20px Verdana'
-    ctx.fillText('Snake Head Color:     ' + menu[0],40, 75)
-    ctx.fillText('Snake Body Color:     ' + menu[1], 40, 95)
-    ctx.fillText('Apple Color:               ' + menu[2], 40, 115)
-    ctx.fillText('>', 20, cursor*tileCount+75)
+    ctx.fillText('Snake Head Color:     ' + menu[0].options[menu[0].selection], 40, 75)
+    ctx.fillText('Snake Body Color:     ' + menu[1].options[menu[1].selection], 40, 95)
+    ctx.fillText('Apple Color:               ' + menu[2].options[menu[2].selection], 40, 115)
+    ctx.fillText('>', 20, cursor * tileCount + 75)
 }
 
 function drawApple() {
-    ctx.fillStyle = 'red'
+    ctx.fillStyle = menu[2].options[menu[2].selection]
     ctx.fillRect(appleX * tileCount, appleY * tileCount, tileSize, tileSize)
 }
 
 function drawSnake() {
-    ctx.fillStyle = 'green'
+    ctx.fillStyle = menu[1].options[menu[1].selection]
     for (let i = 0; i < snake.length; i++) {
         ctx.fillRect(snake[i].x * tileCount, snake[i].y * tileCount, tileSize, tileSize)
     }
 
-    ctx.fillStyle = 'blue'
+    ctx.fillStyle = menu[0].options[menu[0].selection]
     ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
 
     snake.push(new snakePart(headX, headY))
@@ -143,22 +146,28 @@ function keyDown(e) {
                 break;
             // Left
             case 37:
-
+                menu[cursor].selection--
+                if (menu[cursor].selection < 0){
+                    menu[cursor].selection = menu[cursor].options.length - 1
+                }
                 break;
             // Up
             case 38:
-                if (cursor===0){
+                if (cursor === 0) {
                     break;
                 }
                 cursor--
                 break;
             // Right
             case 39:
-
+                menu[cursor].selection++
+                if (menu[cursor].selection >= menu[cursor].options.length){
+                    menu[cursor].selection = 0
+                }
                 break;
             // Down
             case 40:
-                if (cursor === menu.length -1){
+                if (cursor === menu.length - 1) {
                     break;
                 }
                 cursor++
