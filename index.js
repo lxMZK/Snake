@@ -7,9 +7,11 @@ let score = 0
 let gameOver = false
 let pause = false
 let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white']
+let levels = ['easy', 'normal', 'hard']
 let menu = [{ options: colors, selection: 4 },
 { options: colors, selection: 3 },
-{ options: colors, selection: 0 }]
+{ options: colors, selection: 0 },
+{ options: levels, values: [.5,1,2], selection: 1 }]
 let cursor = 0
 
 class snakePart {
@@ -69,6 +71,7 @@ function drawMenu() {
     ctx.fillText('Snake Head Color:     ' + menu[0].options[menu[0].selection], 40, 75)
     ctx.fillText('Snake Body Color:     ' + menu[1].options[menu[1].selection], 40, 95)
     ctx.fillText('Apple Color:               ' + menu[2].options[menu[2].selection], 40, 115)
+    ctx.fillText('Difficulty:                   ' + menu[3].options[menu[3].selection], 40, 135)
     ctx.fillText('>', 20, cursor * tileCount + 75)
 }
 
@@ -102,7 +105,8 @@ function checkApple() {
         appleX = Math.floor(Math.random() * tileCount)
         appleY = Math.floor(Math.random() * tileCount)
         snakeLength++
-        score++
+        score += menu[3].values[menu[3].selection] * 2
+        speed += menu[3].values[menu[3].selection]
     }
 }
 
@@ -147,7 +151,7 @@ function keyDown(e) {
             // Left
             case 37:
                 menu[cursor].selection--
-                if (menu[cursor].selection < 0){
+                if (menu[cursor].selection < 0) {
                     menu[cursor].selection = menu[cursor].options.length - 1
                 }
                 break;
@@ -161,7 +165,7 @@ function keyDown(e) {
             // Right
             case 39:
                 menu[cursor].selection++
-                if (menu[cursor].selection >= menu[cursor].options.length){
+                if (menu[cursor].selection >= menu[cursor].options.length) {
                     menu[cursor].selection = 0
                 }
                 break;
