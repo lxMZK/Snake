@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d')
 let tileCount = 20
 let tileSize = canvas.width / tileCount - 2
 let score = 0
+let start = false
 let gameOver = false
 let pause = false
 let colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white']
@@ -24,7 +25,6 @@ class snakePart {
 let speed = 7
 let headX = 10
 let headY = 10
-let eyes = [{ x: 0, y: 0 }, { x: 0, y: 0 }]
 let xVect = 0
 let yVect = 0
 let snakeLength = 2
@@ -32,6 +32,15 @@ let snake = []
 
 let appleX = 5
 let appleY = 5
+
+function initGame() {
+    clear()
+    ctx.fillStyle = 'white'
+    ctx.font = '26px VT323'
+    ctx.fillText('Press any arrow key/button to begin!', 15, 180)
+    ctx.font = '19px VT323'
+    ctx.fillText('Press Esc at any time to access the menu', 44, 200)
+}
 
 function drawGame() {
     if (pause) {
@@ -138,8 +147,23 @@ function checkCollision() {
 document.body.addEventListener('keydown', keyDown)
 
 function keyDown(e) {
+    if (!start) {
+        start = !start
+        drawGame()
+    }
     if (gameOver) {
-        return;
+        if (e.keyCode === 27) {
+            snake = []
+            xVect = 0
+            yVect = 0
+            headX = 10
+            headY = 10
+            snakeLength = 2
+            score = 0
+            gameOver = false
+            drawGame()
+            return;
+        }
     }
     if (pause) {
         switch (e.keyCode) {
@@ -224,20 +248,20 @@ function keyDown(e) {
 }
 
 document.getElementById('left').addEventListener('click', function () {
-    let e = {keyCode: 37}
+    let e = { keyCode: 37 }
     keyDown(e)
 })
 document.getElementById('up').addEventListener('click', function () {
-    let e = {keyCode: 38}
+    let e = { keyCode: 38 }
     keyDown(e)
 })
 document.getElementById('right').addEventListener('click', function () {
-    let e = {keyCode: 39}
+    let e = { keyCode: 39 }
     keyDown(e)
 })
 document.getElementById('down').addEventListener('click', function () {
-    let e = {keyCode: 40}
+    let e = { keyCode: 40 }
     keyDown(e)
 })
 
-drawGame()
+initGame()
