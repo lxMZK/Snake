@@ -39,7 +39,7 @@ function initGame() {
     ctx.font = '26px VT323'
     ctx.fillText('Press any arrow key/button to begin!', 15, 180)
     ctx.font = '19px VT323'
-    ctx.fillText('Press Esc at any time to access the menu', 44, 200)
+    ctx.fillText('Press Esc at any time to access the menu', 46, 200)
 }
 
 function drawGame() {
@@ -66,8 +66,8 @@ function clear() {
 
 function drawScore() {
     ctx.fillStyle = 'white'
-    ctx.font = '10px Verdana'
-    ctx.fillText('Score: ' + score, canvas.width - 50, 10)
+    ctx.font = '20px VT323'
+    ctx.fillText('Score: ' + score, 5, canvas.height - 5)
 }
 
 function drawMenu() {
@@ -139,9 +139,12 @@ function checkCollision() {
         }
     }
 
-    ctx.fillStyle = 'white'
-    ctx.font = '50px Verdana'
+    clear()
+    ctx.fillStyle = 'red'
+    ctx.font = '90px VT323'
     ctx.fillText('GAME OVER', 35, 200)
+    ctx.font = '19px VT323'
+    ctx.fillText('Press Esc to try again!', 110, 220)
 }
 
 document.body.addEventListener('keydown', keyDown)
@@ -159,6 +162,7 @@ function keyDown(e) {
             headX = 10
             headY = 10
             snakeLength = 2
+            speed = 7
             score = 0
             gameOver = false
             drawGame()
