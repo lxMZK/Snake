@@ -1,0 +1,12 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#game{
+    width: 400px;
+    height: 400px;
+    box-shadow: black 20px 10px 50px;
+}
