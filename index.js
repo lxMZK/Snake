@@ -267,5 +267,9 @@ document.getElementById('down').addEventListener('click', function () {
     let e = { keyCode: 40 }
     keyDown(e)
 })
+document.getElementById('esc').addEventListener('click',function(){
+    let e = { keyCode: 27 }
+    keyDown(e)
+})
 
 initGame()
