@@ -11,7 +11,7 @@ let levels = ['easy', 'normal', 'hard']
 let menu = [{ options: colors, selection: 4 },
 { options: colors, selection: 3 },
 { options: colors, selection: 0 },
-{ options: levels, values: [.5,1,2], selection: 1 }]
+{ options: levels, values: [.5, 1, 2], selection: 1 }]
 let cursor = 0
 
 class snakePart {
@@ -193,6 +193,7 @@ function keyDown(e) {
                 }
                 xVect = -1
                 yVect = 0
+                console.log(e)
                 break;
             // Up
             case 38:
@@ -221,5 +222,22 @@ function keyDown(e) {
         }
     }
 }
+
+document.getElementById('left').addEventListener('click', function () {
+    let e = {keyCode: 37}
+    keyDown(e)
+})
+document.getElementById('up').addEventListener('click', function () {
+    let e = {keyCode: 38}
+    keyDown(e)
+})
+document.getElementById('right').addEventListener('click', function () {
+    let e = {keyCode: 39}
+    keyDown(e)
+})
+document.getElementById('down').addEventListener('click', function () {
+    let e = {keyCode: 40}
+    keyDown(e)
+})
 
 drawGame()
