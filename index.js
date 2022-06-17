@@ -150,6 +150,7 @@ function checkCollision() {
 document.body.addEventListener('keydown', keyDown)
 
 function keyDown(e) {
+    e.preventDefault()
     if (!start) {
         start = !start
         drawGame()
