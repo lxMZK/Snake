@@ -149,8 +149,11 @@ function checkCollision() {
 
 document.body.addEventListener('keydown', keyDown)
 
-function keyDown(e) {
-    e.preventDefault()
+function keyDown(e, scroll) {
+    if (!scroll){
+        e.preventDefault()
+    }
+    
     if (!start) {
         start = !start
         drawGame()
@@ -222,7 +225,6 @@ function keyDown(e) {
                 }
                 xVect = -1
                 yVect = 0
-                console.log(e)
                 break;
             // Up
             case 38:
@@ -254,23 +256,23 @@ function keyDown(e) {
 
 document.getElementById('left').addEventListener('click', function () {
     let e = { keyCode: 37 }
-    keyDown(e)
+    keyDown(e, true)
 })
 document.getElementById('up').addEventListener('click', function () {
     let e = { keyCode: 38 }
-    keyDown(e)
+    keyDown(e, true)
 })
 document.getElementById('right').addEventListener('click', function () {
     let e = { keyCode: 39 }
-    keyDown(e)
+    keyDown(e, true)
 })
 document.getElementById('down').addEventListener('click', function () {
     let e = { keyCode: 40 }
-    keyDown(e)
+    keyDown(e, true)
 })
 document.getElementById('esc').addEventListener('click',function(){
     let e = { keyCode: 27 }
-    keyDown(e)
+    keyDown(e, true)
 })
 
 initGame()
